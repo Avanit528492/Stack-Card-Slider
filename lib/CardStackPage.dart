@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:card_swiper/card_swiper.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CardStackPage extends StatefulWidget {
   const CardStackPage({Key? key}) : super(key: key);
@@ -26,8 +26,16 @@ class _CardStackPageState extends State<CardStackPage> {
     print(currentPage);
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          child: Center(child: cardList()),
+        child: Center(
+          child: Container(
+            height: 350,
+            child: Center(child: Column(
+              children: [
+                Expanded(child: cardList()),
+                indicator(),
+              ],
+            )),
+          ),
         ),
       ),
     );
@@ -68,7 +76,7 @@ class _CardStackPageState extends State<CardStackPage> {
         else{
           rightOffset =0;
         }
-        return Positioned.fill(
+        return Positioned(
           child: Transform.scale(scale: index == currentPage.round() ? 1: 0.93,child: cardView(index)),
           top: 0,
           left: currentPage > index ? -(currentPage - index) * (_width * 4) : 0,
@@ -101,5 +109,14 @@ class _CardStackPageState extends State<CardStackPage> {
         ),
       ),
     );
+  }
+
+  Widget indicator(){
+    return SmoothPageIndicator(controller: controller, count: _item.length,
+      effect: ScrollingDotsEffect(
+        dotHeight: 10,
+        dotWidth: 10,
+
+      ),);
   }
 }
